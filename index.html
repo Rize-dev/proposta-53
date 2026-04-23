@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Comercial - Prospecção B2B</title>
+    <style>
+        :root {
+            --bg: #0f1115;
+            --surface: #16181f;
+            --surface-alt: #1c1f28;
+            --border: #2a2d3a;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a6b5;
+            --text-muted: #6b7280;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+            --start: #f97316;
+            --start-light: #fb923c;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --purple: #8b5cf6;
+            --gold: #eab308;
+            --radius: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+        /* HEADER */
+        .proposal-header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); }
+        .meta { text-align: right; }
+        .meta .title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 600; }
+        .meta .ref { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem; }
+
+        /* CLIENT INFO */
+        .client-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .client-block h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .client-block p { margin: 0; color: var(--text-secondary); }
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+        }
+        .client-item { background: var(--bg); padding: 0.7rem 1rem; border-radius: 8px; }
+        .client-item label { display: block; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.2rem; }
+        .client-item strong { font-size: 0.95rem; }
+
+        /* CONTEXT */
+        section { margin: 2.5rem 0; }
+        h2 { font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        p { color: var(--text-secondary); margin-bottom: 1rem; }
+
+        /* PLAN CARD — GENERIC */
+        .plan-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+        .plan-section:hover { border-color: var(--border); }
+        .plan-section.recommended { border-color: var(--accent); border-width: 2px; }
+        .plan-badge {
+            position: absolute;
+            top: -11px;
+            left: 1.5rem;
+            padding: 0.25rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-start { background: var(--start); color: white; }
+        .badge-base { background: var(--accent); color: white; }
+        .badge-crescimento { background: var(--purple); color: white; }
+        .badge-dominacao { background: var(--gold); color: #1a1a2e; }
+
+        .plan-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem; }
+        .plan-name { font-size: 1.4rem; font-weight: 700; }
+        .plan-tagline { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem; }
+        .plan-target { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--text-muted); background: var(--bg); padding: 0.3rem 0.7rem; border-radius: 6px; margin-top: 0.6rem; }
+        .price-box { text-align: right; background: var(--bg); padding: 0.8rem 1.2rem; border-radius: 8px; }
+        .price-main { font-size: 1.8rem; font-weight: 800; }
+        .price-sub { font-size: 0.8rem; color: var(--text-muted); }
+        .price-start .price-main { color: var(--start); }
+        .price-base .price-main { color: var(--accent); }
+        .price-crescimento .price-main { color: var(--purple); }
+        .price-dominacao .price-main { color: var(--gold); }
+
+        .volume-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--bg);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+        .volume-start { color: var(--start); }
+        .volume-base { color: var(--success); }
+        .volume-crescimento { color: var(--purple); }
+        .volume-dominacao { color: var(--gold); }
+
+        .features-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.5rem; margin-bottom: 1rem; }
+        .feat { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.88rem; color: var(--text-secondary); }
+        .feat svg { flex-shrink: 0; margin-top: 3px; }
+        .feat-start svg { color: var(--start); }
+        .feat-base svg { color: var(--success); }
+        .feat-crescimento svg { color: var(--purple); }
+        .feat-dominacao svg { color: var(--gold); }
+
+        .limitation-box {
+            background: var(--bg);
+            border-left: 3px solid;
+            padding: 0.8rem 1rem;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 1rem;
+        }
+        .limitation-box p { margin: 0; font-size: 0.83rem; }
+        .lim-start { border-color: var(--start); color: var(--start-light); }
+        .lim-crescimento { border-color: var(--purple); color: #a78bfa; }
+        .lim-dominacao { border-color: var(--gold); color: var(--gold); }
+
+        .differential-box {
+            background: var(--bg);
+            border-left: 3px solid var(--gold);
+            padding: 0.8rem 1rem;
+            border-radius: 0 6px 6px 0;
+            margin-top: 0.8rem;
+        }
+        .differential-box p { margin: 0; font-size: 0.85rem; color: var(--text-secondary); font-style: italic; }
+
+        /* TERMS */
+        .terms-box {
+            background: var(--surface);
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        .terms-box h3 { font-size: 1rem; margin-bottom: 0.8rem; color: var(--warning); }
+        .terms-list { list-style: none; padding: 0; }
+        .terms-list li { padding: 0.4rem 0; padding-left: 1.2rem; position: relative; color: var(--text-secondary); font-size: 0.9rem; }
+        .terms-list li::before { content: "▸"; position: absolute; left: 0; color: var(--warning); }
+
+        /* STEPS */
+        .steps-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+        .step-item { flex: 1; min-width: 200px; background: var(--surface); padding: 1.2rem; border-radius: var(--radius); border: 1px solid var(--border); }
+        .step-num { font-size: 1.4rem; font-weight: 800; color: var(--accent); margin-bottom: 0.3rem; }
+        .step-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .step-desc { font-size: 0.82rem; color: var(--text-muted); }
+
+        /* ACCEPTANCE */
+        .accept-section {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 2rem;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .btn-group { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 0.8rem 1.6rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
+        .btn-outline:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center; padding: 1rem;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 2000;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+            padding: 2rem; max-width: 480px; width: 100%; transform: translateY(20px); transition: transform 0.3s;
+        }
+        .modal-overlay.active .modal { transform: translateY(0); }
+        .modal h3 { font-size: 1.25rem; margin-bottom: 0.4rem; }
+        .modal > p { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.2rem; }
+        .form-group { margin-bottom: 0.9rem; }
+        .form-group label { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+        .form-group input, .form-group select { width: 100%; padding: 0.65rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); font-size: 0.9rem; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
+        .modal-actions { display: flex; gap: 0.8rem; margin-top: 0.8rem; }
+        .modal-actions .btn { flex: 1; justify-content: center; }
+
+        /* TOAST */
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem; background: var(--surface);
+            border: 1px solid var(--success); border-radius: 8px; display: flex; align-items: center; gap: 0.6rem;
+            font-size: 0.88rem; z-index: 3000; transform: translateY(100px); opacity: 0; transition: all 0.4s;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* PRINT */
+        @media print {
+            body { background: white; color: black; }
+            .proposal-header, .accept-section, .modal-overlay, .toast { display: none !important; }
+            .container { max-width: 100%; padding: 0; }
+            .client-block, .plan-section, .terms-box, .step-item { border: 1px solid #ccc; background: #fafafa; }
+            h1, h2, .logo, .plan-name { color: #111; }
+            p, .plan-tagline, .plan-target, .feat, .step-desc, .terms-list li { color: #333; }
+            .price-main { color: #111 !important; }
+        }
+
+        @media (max-width: 600px) {
+            .proposal-header { flex-direction: column; align-items: flex-start; }
+            .meta { text-align: left; }
+            .client-grid { grid-template-columns: 1fr; }
+            .price-box { text-align: left; }
+            .features-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="proposal-header">
+        <div class="logo">Prospec<span>Pro</span></div>
+        <div class="meta">
+            <div class="title">Proposta Comercial</div>
+            <div class="ref">Ref: PP-2026-042 | Válida até: 10/05/2026</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- CLIENT INFO -->
+        <div class="client-block">
+            <h1>Prospecção B2B Exclusiva</h1>
+            <p>Documento preparado sob medida para sua operação.</p>
+            <div class="client-grid">
+                <div class="client-item"><label>Preparada para</label><strong>Telecom Corporativo</strong></div>
+                <div class="client-item"><label>Empresa</label><strong>Telecom Corporativo</strong></div>
+                <div class="client-item"><label>Data</label><strong id="currentDate"></strong></div>
+                <div class="client-item"><label>Validade da proposta</label><strong>15 dias corridos</strong></div>
+            </div>
+        </div>
+
+        <!-- CONTEXT -->
+        <section>
+            <h2>🎯 Entendimento & Objetivo</h2>
+            <p>Conforme nosso alinhamento inicial, identificamos que a <strong>[Nome da Empresa]</strong> busca estruturar um fluxo previsível de reuniões com decisores que possuem contas de telefonia e energia acima do padrão, visando redução de custos e aumento de margem.</p>
+            <p>Abaixo detalhamos todas as opções de plano disponíveis para sua avaliação, com o <strong>Plano Base</strong> destacado como a recomendação inicial para seu momento.</p>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- PLANO START                              -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+            <h2>🚀 Plano Start — Entrada / Teste</h2>
+            <div class="plan-section">
+                <span class="plan-badge badge-start">Plano Inicial</span>
+                <div class="plan-top">
+                    <div>
+                        <div class="plan-name">Plano Start</div>
+                        <div class="plan-tagline">Entrada / Teste</div>
+                        <div class="plan-target">🎯 Para quem quer começar com baixo risco e testar a operação</div>
+                    </div>
+                    <div class="price-box price-start">
+                        <div class="price-main">R$ 500</div>
+                        <div class="price-sub">/mês</div>
+                    </div>
+                </div>
+
+                <div class="volume-tag volume-start">📅 Volume: 2 a 5 reuniões qualificadas por semana</div>
+
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.8rem;"><strong style="color: var(--text-primary);">Objetivo:</strong> Validar o processo rapidamente e gerar as primeiras oportunidades com investimento mínimo.</p>
+
+                <div class="features-list">
+                    <div class="feat feat-start">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Mapeamento inicial de empresas dentro do ICP (perfil ideal)</span>
+                    </div>
+                    <div class="feat feat-start">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Identificação básica de decisores (cargo + empresa)</span>
+                    </div>
+                    <div class="feat feat-start">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Prospecção ativa em <strong>1 canal principal</strong> (LinkedIn ou E-mail)</span>
+                    </div>
+                    <div class="feat feat-start">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Copy focada em economia (telefonia + energia)</span>
+                    </div>
+                    <div class="feat feat-start">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Follow-up simples (sequência básica de 2-3 contatos)</span>
+                    </div>
+                    <div class="feat feat-start">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Agendamento de reuniões qualificadas na sua agenda</span>
+                    </div>
+                </div>
+
+                <div class="limitation-box lim-start">
+                    <p>⚠️ <strong>Limitações:</strong> Menor volume de prospecção · Sem testes avançados de copy · Sem segmentação profunda por nicho · Sem otimizações semanais estratégicas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- PLANO BASE (RECOMENDADO)                 -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+            <h2>📊 Plano Base — Validação e Consistência</h2>
+            <div class="plan-section recommended">
+                <span class="plan-badge badge-base">⭐ Recomendado para você</span>
+                <div class="plan-top">
+                    <div>
+                        <div class="plan-name">Plano Base</div>
+                        <div class="plan-tagline">Validação e Consistência</div>
+                        <div class="plan-target">🎯 Para validar processo e começar com previsibilidade</div>
+                    </div>
+                    <div class="price-box price-base">
+                        <div class="price-main">R$ 1.200 a R$ 1.800</div>
+                        <div class="price-sub">/mês (definido no kick-off)</div>
+                    </div>
+                </div>
+
+                <div class="volume-tag volume-base">📅 Volume: 5 a 10 reuniões qualificadas por semana</div>
+
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.8rem;"><strong style="color: var(--text-primary);">Objetivo:</strong> Gerar fluxo constante de reuniões qualificadas com decisores reais.</p>
+
+                <div class="features-list">
+                    <div class="feat feat-base">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Mapeamento ICP completo (30+ funcionários / contas de energia &gt; R$300)</span>
+                    </div>
+                    <div class="feat feat-base">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Identificação de decisores (TI, Financeiro, Compras)</span>
+                    </div>
+                    <div class="feat feat-base">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Prospecção ativa multicanal (LinkedIn + E-mail + Follow-ups)</span>
+                    </div>
+                    <div class="feat feat-base">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Copy personalizada: redução TIM + economia energia</span>
+                    </div>
+                    <div class="feat feat-base">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Pré-qualificação dos leads antes de agendar</span>
+                    </div>
+                    <div class="feat feat-base">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Agendamento direto na sua agenda</span>
+                    </div>
+                    <div class="feat feat-base">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Relatório semanal com métricas (disparos, respostas, agendamentos)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- PLANO CRESCIMENTO                        -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+            <h2>📈 Plano Crescimento — Escala e Otimização</h2>
+            <div class="plan-section">
+                <span class="plan-badge badge-crescimento">Para crescimento agressivo</span>
+                <div class="plan-top">
+                    <div>
+                        <div class="plan-name">Plano Crescimento</div>
+                        <div class="plan-tagline">Escala e Otimização Contínua</div>
+                        <div class="plan-target">🎯 Para quem já validou e quer crescimento consistente e mais agressivo</div>
+                    </div>
+                    <div class="price-box price-crescimento">
+                        <div class="price-main">R$ 2.500 a R$ 3.500</div>
+                        <div class="price-sub">/mês (definido no kick-off)</div>
+                    </div>
+                </div>
+
+                <div class="volume-tag volume-crescimento">📅 Volume: 10 a 20 reuniões qualificadas por semana</div>
+
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.8rem;"><strong style="color: var(--text-primary);">Objetivo:</strong> Aumentar volume de prospecção e melhorar continuamente a taxa de conversão.</p>
+
+                <div class="features-list">
+                    <div class="feat feat-crescimento">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span><strong>Tudo do Plano Base, mais:</strong></span>
+                    </div>
+                    <div class="feat feat-crescimento">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Aumento do volume de prospecção diária (+3x a 5x mais contatos)</span>
+                    </div>
+                    <div class="feat feat-crescimento">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Testes A/B de abordagem (mensagens, ofertas e CTAs diferentes)</span>
+                    </div>
+                    <div class="feat feat-crescimento">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Segmentação por nicho: indústrias, comércios e serviços</span>
+                    </div>
+                    <div class="feat feat-crescimento">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Criação de scripts comerciais para melhorar o fechamento</span>
+                    </div>
+                    <div class="feat feat-crescimento">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Follow-ups estratégicos com leads que não responderam (sequências avançadas)</span>
+                    </div>
+                    <div class="feat feat-crescimento">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Ajustes semanais baseados em dados de performance real</span>
+                    </div>
+                    <div class="feat feat-crescimento">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Call de alinhamento semanal (30min) para revisar métricas e otimizar</span>
+                    </div>
+                </div>
+
+                <div class="limitation-box lim-crescimento">
+                    <p>💡 <strong>Diferencial:</strong> Aqui não é só gerar reunião — é melhorar a qualidade e a taxa de fechamento de cada oportunidade criada.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- PLANO DOMINAÇÃO                          -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+            <h2>👑 Plano Dominação — Alta Performance e Expansão</h2>
+            <div class="plan-section">
+                <span class="plan-badge badge-dominacao">Máximo desempenho</span>
+                <div class="plan-top">
+                    <div>
+                        <div class="plan-name">Plano Dominação</div>
+                        <div class="plan-tagline">Alta Performance e Expansão Territorial</div>
+                        <div class="plan-target">🎯 Para operação agressiva focada em escala, dominância regional e faturamento</div>
+                    </div>
+                    <div class="price-box price-dominacao">
+                        <div class="price-main">R$ 4.500 a R$ 6.000</div>
+                        <div class="price-sub">/mês (definido no kick-off)</div>
+                    </div>
+                </div>
+
+                <div class="volume-tag volume-dominacao">📅 Volume: 20 a 40 reuniões qualificadas por semana</div>
+
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.8rem;"><strong style="color: var(--text-primary);">Objetivo:</strong> Dominar a região e maximizar a geração de vendas com previsibilidade real.</p>
+
+                <div class="features-list">
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span><strong>Tudo dos planos anteriores, mais:</strong></span>
+                    </div>
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Prospecção em alto volume: time dedicado + automação avançada</span>
+                    </div>
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Estratégia por território (raio de até 300km de Caraguatatuba)</span>
+                    </div>
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Abordagem personalizada por segmento e tamanho de empresa</span>
+                    </div>
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Nutrição de leads com sequência estratégica até resposta</span>
+                    </div>
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Estruturação de funil completo: do primeiro contato ao fechamento</span>
+                    </div>
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Apoio na estratégia comercial (como conduzir reuniões de vendas)</span>
+                    </div>
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Otimização contínua focada em ROI e custo por reunião</span>
+                    </div>
+                    <div class="feat feat-dominacao">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>Dashboard de métricas em tempo real + reuniões quinzenais de estratégia</span>
+                    </div>
+                </div>
+
+                <div class="differential-box">
+                    <p>🚀 <strong>Diferencial:</strong> Aqui o foco é previsibilidade real de vendas e crescimento acelerado. Não é apenas prospecção — é uma máquina comercial.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TERMS -->
+        <section class="terms-box">
+            <h3>📋 Condições Comerciais</h3>
+            <ul class="terms-list">
+                <li>Contrato mensal, sem fidelidade ou multa de rescisão</li>
+                <li>Pagamento via boleto ou PIX, com vencimento no 1º dia útil do mês</li>
+                <li>Implementação e início da prospecção em até 5 dias úteis após aceite</li>
+                <li>Escopo pode ser ajustado conforme volume real de ICP disponível na região</li>
+                <li>Relatórios e reuniões de alinhamento semanais inclusos (a partir do Plano Base)</li>
+                <li>Claúsula de confidencialidade (NDA) inclusa em todos os planos</li>
+            </ul>
+        </section>
+
+        <!-- NEXT STEPS -->
+        <section>
+            <h2>🚀 Próximos Passos</h2>
+            <div class="steps-row">
+                <div class="step-item">
+                    <div class="step-num">01</div>
+                    <div class="step-title">Aceite Formal</div>
+                    <div class="step-desc">Assinatura digital ou confirmação por e-mail/WhatsApp</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">02</div>
+                    <div class="step-title">Kick-off (30min)</div>
+                    <div class="step-desc">Alinhamento de ICP, tom de voz, agenda e ferramentas</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">03</div>
+                    <div class="step-title">Início da Operação</div>
+                    <div class="step-desc">Mapeamento ativo e primeiros disparos em até 48h</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACCEPTANCE -->
+        <div class="accept-section">
+            <h2 style="justify-content: center;">Aceite de Proposta</h2>
+            <p>Clique abaixo para confirmar o interesse. Nosso time entrará em contato em até 2 horas para formalizar o kick-off.</p>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="openAcceptModal()">✅ Aceitar Esta Proposta</button>
+                <button class="btn btn-outline" onclick="window.print()">🖨️ Salvar em PDF</button>
+                <a href="https://wa.me/5512999999999?text=Olá,%20vi%20a%20proposta%20comercial%20e%20tenho%20dúvidas." target="_blank" class="btn btn-outline">💬 Tirar Dúvidas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="acceptModal">
+        <div class="modal">
+            <h3>Confirmar Aceite</h3>
+            <p>Preencha para formalizar o início da operação.</p>
+            <form onsubmit="handleAccept(event)">
+                <div class="form-group">
+                    <label>Nome completo</label>
+                    <input type="text" placeholder="Seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label>Cargo</label>
+                    <input type="text" placeholder="Ex: Diretor Comercial" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail corporativo</label>
+                    <input type="email" placeholder="seu@empresa.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Plano escolhido</label>
+                    <select>
+                        <option>Plano Start — R$ 500/mês</option>
+                        <option selected>Plano Base — R$ 1.200 a 1.800/mês</option>
+                        <option>Plano Crescimento — R$ 2.500 a 3.500/mês</option>
+                        <option>Plano Dominação — R$ 4.500 a 6.000/mês</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeAcceptModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Confirmar →</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span style="color: var(--success); font-size: 1.2rem;">✓</span>
+        <span>Proposta aceita! Entraremos em contato em breve.</span>
+    </div>
+
+    <script>
+        const today = new Date();
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
+
+        function openAcceptModal() {
+            document.getElementById('acceptModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAcceptModal() {
+            document.getElementById('acceptModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.getElementById('acceptModal').addEventListener('click', e => {
+            if (e.target === e.currentTarget) closeAcceptModal();
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAcceptModal(); });
+
+        function handleAccept(e) {
+            e.preventDefault();
+            closeAcceptModal();
+            const t = document.getElementById('toast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 5000);
+        }
+    </script>
+</body>
+</html>
